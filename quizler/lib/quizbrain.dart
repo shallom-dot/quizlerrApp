@@ -57,7 +57,7 @@ class QuizBrain {
   ];
 
   void nextQuestion() {
-    if (_questionNum < _questionBanq.length) {
+    if (_questionNum < _questionBanq.length - 1) {
       _questionNum++;
     }
   }
