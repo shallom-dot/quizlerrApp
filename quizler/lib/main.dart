@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'quizbrain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() {
   runApp(const MyApp());
@@ -31,16 +34,9 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreStore = [];
-  List<String> questions = [
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.',
-    'A slug\'s blood is green.',
-  ];
+
   int questionNum = 0;
-  List<bool> answers = [false, true, false, true, true];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,7 +49,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNum],
+                quizBrain.questionBanq[questionNum].questionText!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -80,7 +76,8 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
-                bool correctAnswer = answers[questionNum];
+                bool correctAnswer =
+                    quizBrain.questionBanq[questionNum].questionAnswer!;
                 if (correctAnswer == true) {
                   print('users is correct');
                 } else {
@@ -110,7 +107,8 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
-                bool correctAnswer = answers[questionNum];
+                bool correctAnswer =
+                    quizBrain.questionBanq[questionNum].questionAnswer!;
                 if (correctAnswer == false) {
                   print('users is right');
                 } else {
