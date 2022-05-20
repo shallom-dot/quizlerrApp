@@ -1,4 +1,7 @@
+// ignore_for_file: avoid_print, unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quizbrain.dart';
 
 QuizBrain quizBrain = QuizBrain();
@@ -35,6 +38,30 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreStore = [];
 
+  void checqAnswer(bool userPicqedAnswer) {
+    bool correctAnswer = quizBrain.getAnswer();
+
+    setState(() {
+      if (quizBrain.isFinished() == true) {
+        Alert(
+                context: context,
+                title: "Finished",
+                desc: "you've reached the end.")
+            .show();
+        quizBrain.reset();
+        scoreStore = [];
+      } else {
+        if (userPicqedAnswer == correctAnswer) {
+          scoreStore.add(const Icon(Icons.check, color: Colors.green));
+        } else {
+          scoreStore.add(const Icon(Icons.close, color: Colors.red));
+        }
+
+        quizBrain.nextQuestion();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,12 +71,12 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           flex: 5,
           child: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
                 quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 25.0,
                   color: Colors.white,
                 ),
@@ -61,60 +88,42 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: TextButton(
-              //textColor: Colors.white,
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.green,
-              ),
-              child: const Text(
-                'True',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
+                //textColor: Colors.white,
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.green,
                 ),
-              ),
-              onPressed: () {
-                //The user picked true.
-                bool correctAnswer = quizBrain.getAnswer();
-                if (correctAnswer == true) {
-                  print('users is correct');
-                } else {
-                  print('users is wrong');
-                }
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
-              },
-            ),
+                child: const Text(
+                  'True',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  ),
+                ),
+                onPressed: () {
+                  //The user picked true.
+                  checqAnswer(true);
+                }),
           ),
         ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: TextButton(
-              //color: Colors.red,
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.red,
-              ),
-              child: const Text(
-                'False',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
+                //color: Colors.red,
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red,
                 ),
-              ),
-              onPressed: () {
-                //The user picked false.
-                bool correctAnswer = quizBrain.getAnswer();
-                if (correctAnswer == false) {
-                  print('users is right');
-                } else {
-                  print('users is wrong');
-                }
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
-              },
-            ),
+                child: const Text(
+                  'False',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {
+                  //The user picked false.
+                  checqAnswer(false);
+                }),
           ),
         ),
         Row(

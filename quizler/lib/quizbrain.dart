@@ -1,9 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'questionss.dart';
 
 class QuizBrain {
   int _questionNum = 0;
 
-  List<Question> _questionBanq = [
+  final List<Question> _questionBanq = [
     Question(q: 'You can lead a cow down stairs but not up stairs.', a: false),
     Question(
         q: 'Approximately one quarter of human bones are in the feet.',
@@ -68,5 +70,18 @@ class QuizBrain {
 
   bool getAnswer() {
     return _questionBanq[_questionNum].questionAnswer!;
+  }
+
+  bool isFinished() {
+    if (_questionNum == _questionBanq.length - 1) {
+      return true;
+      // print('true');
+    } else {
+      return false;
+    }
+  }
+
+  void reset() {
+    _questionNum = 0;
   }
 }
